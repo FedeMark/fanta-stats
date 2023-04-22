@@ -1,7 +1,9 @@
 import streamlit as st
 import altair as alt
 import pandas as pd
-from utils.const import DATA_PATH, PRIMARY_COLOR
+from utils.const import DATA_PATH, PRIMARY_COLOR, GRAPHIC_PATH
+from PIL import Image
+from utils.utils import add_sidebar_links
 
 
 def get_distribution_chart(data):
@@ -22,6 +24,35 @@ def plot_mean(data):
     )
     st.altair_chart(data_dist + mean_line)
 
+    st.write("The (arithmetic) mean is the most common measure of central tendency.")
+    st.latex(
+        r"""
+    \bar{x} = \frac{(x_1 + x_2 + x_3 + \cdots + x_{n-1} + x_n)}{n} = \sum_{i=1}^{n} x_i
+    """
+    )
+    st.write(
+        "This measure has the problem to be very sensible to outliers. For example, "
+        + "even for Oshimen, a hat-trick is an exceptionality; so we should not consider the 17.5 "
+        + "the striker scored against Sassuolo on October 29."
+    )
+
+    data["outlier"] = data.FV > 16
+
+    data_dist_out = (
+        alt.Chart(data=data)
+        .mark_bar()
+        .encode(
+            x=alt.X("FV", bin=False),
+            y="count()",
+            color=alt.Color(
+                "outlier",
+            ),
+        )
+        .properties(width=600)
+    )
+
+    st.altair_chart(data_dist_out)
+
 
 def plot_median(data):
     data_dist = get_distribution_chart(data)
@@ -33,6 +64,15 @@ def plot_median(data):
     )
     st.altair_chart(data_dist + mean_line)
 
+    st.write(
+        """
+    The process to extract the median is very simple:
+    1. order the scores of Victor Oshimen (samples of the distribution), getting a sequence
+    2. the ***median*** is the central value of the sequence (if the number of samples is even, it's the mean between the two central values)
+    """
+    )
+    st.write("By definition, the median is more robust to outliers than the mean.")
+
 
 def plot_mode(data):
     data_dist = get_distribution_chart(data)
@@ -43,6 +83,10 @@ def plot_mode(data):
         .properties(width=600)
     )
     st.altair_chart(data_dist + mean_line)
+
+    st.markdown(
+        "The mode is typically less used and simply consists in the value that is more present among the samples."
+    )
 
 
 def plot_trimmed_mean(data):
@@ -77,9 +121,21 @@ def plot_trimmed_mean(data):
     )
     st.altair_chart(data_dist + mean_line)
 
+    st.markdown(
+        "This is an attempt to make the mean more robust to outliers. The idea is to "
+        + "remove the more extreme values and compute the mean on the left ones."
+    )
+
 
 def main():
-    st.write("Let's use Victor Oshimen Fantacalcio scores (FV) as our very variable.")
+    icon = Image.open(GRAPHIC_PATH / "logo-sfondo.png")
+    st.set_page_config(page_icon=icon, layout="wide")
+
+    st.header("Central tendency")
+    st.write(
+        "Let's use Victor Oshimen Fantacalcio scores (FV) as our very variable."
+        + " This season (Seriea 2022-2023) his performances are amazing and surely worth a closer look."
+    )
     oshimen_fv_df = pd.read_csv(DATA_PATH / "oshimen_fv.csv", index_col=0)
 
     st.sidebar.markdown("# Central tendency")
@@ -102,6 +158,8 @@ def main():
     st.sidebar.write(
         "Data from: [fantacalcio.it](https://www.fantacalcio.it/)",
     )
+
+    add_sidebar_links()
 
 
 if __name__ == "__main__":
