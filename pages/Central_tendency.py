@@ -133,7 +133,7 @@ def main():
 
     st.header("Central tendency")
     st.write(
-        "Let's use Victor Oshimen Fantacalcio scores (FV) as our very variable."
+        "Let's use Victor Oshimen Fantacalcio scores (FV) as our distribution."
         + " This season (Seriea 2022-2023) his performances are amazing and surely worth a closer look."
     )
     oshimen_fv_df = pd.read_csv(DATA_PATH / "oshimen_fv.csv", index_col=0)
