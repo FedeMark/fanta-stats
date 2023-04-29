@@ -8,7 +8,7 @@ from utils.utils import add_sidebar_links
 
 def main():
     icon = Image.open(GRAPHIC_PATH / "logo-sfondo.png")
-    st.set_page_config(page_icon=icon, layout="wide")
+    st.set_page_config(page_icon=icon)
 
     st.header("Coming soon....")
 

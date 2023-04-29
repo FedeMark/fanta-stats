@@ -133,7 +133,7 @@ def plot_trimmed_mean(data):
 
 def main():
     icon = Image.open(GRAPHIC_PATH / "logo-sfondo.png")
-    st.set_page_config(page_icon=icon, layout="wide")
+    st.set_page_config(page_icon=icon)
 
     st.header("Central tendency")
     st.write(

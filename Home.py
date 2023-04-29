@@ -32,7 +32,7 @@ def main():
     icon = Image.open(GRAPHIC_PATH / "logo-sfondo.png")
     high_icon = Image.open(GRAPHIC_PATH / "nome_logo_orizzontale.png")
 
-    st.set_page_config(page_icon=icon, page_title="Fanta Stats", layout="wide")
+    st.set_page_config(page_icon=icon, page_title="Fanta Stats")
 
     st.markdown(page_bg, unsafe_allow_html=True)
 
