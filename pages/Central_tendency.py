@@ -51,7 +51,8 @@ def plot_mean(data):
         .properties(width=600)
     )
 
-    st.altair_chart(data_dist_out)
+    cols = st.columns([0.1, 0.8, 0.1])
+    cols[1].altair_chart(data_dist_out)
 
 
 def plot_median(data):
@@ -62,7 +63,8 @@ def plot_median(data):
         .encode(x="x")
         .properties(width=600)
     )
-    st.altair_chart(data_dist + mean_line)
+    cols = st.columns([0.1, 0.8, 0.1])
+    cols[1].altair_chart(data_dist + mean_line)
 
     st.write(
         """
@@ -82,7 +84,8 @@ def plot_mode(data):
         .encode(x="x")
         .properties(width=600)
     )
-    st.altair_chart(data_dist + mean_line)
+    cols = st.columns([0.1, 0.8, 0.1])
+    cols[1].altair_chart(data_dist + mean_line)
 
     st.markdown(
         "The mode is typically less used and simply consists in the value that is more present among the samples."
@@ -119,7 +122,8 @@ def plot_trimmed_mean(data):
         .mark_rule(color=PRIMARY_COLOR, strokeDash=[15, 15], strokeWidth=4)
         .encode(x="x")
     )
-    st.altair_chart(data_dist + mean_line)
+    cols = st.columns([0.1, 0.8, 0.1])
+    cols[1].altair_chart(data_dist + mean_line)
 
     st.markdown(
         "This is an attempt to make the mean more robust to outliers. The idea is to "
